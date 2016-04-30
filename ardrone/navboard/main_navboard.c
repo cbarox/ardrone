@@ -27,35 +27,37 @@
 
 #include "navboard.h"
 
-int main()
-{
-	int rc;
-	struct nav_struct nav;
-	
-	printf("Nav board test program\r\n");
+int main() {
+  int rc;
+  struct nav_struct nav;
 
-	//nav board
-	printf("Init Navboard ...\r\n");
-	rc = nav_Init(&nav);
-	if(rc) return rc;
-	printf("Init Navboard OK\r\n");
+  printf("Nav board test program\r\n");
 
-	//calibrate
-	printf("Calibration ...\r\n");
-	rc=nav_FlatTrim();
-	if(rc) {printf("Failed: retcode=%d\r\n",rc); return rc;}
-	printf("Calibration OK\r\n");
-	 
-	//main loop	
-	while(1) { 
-		//get sample
-		rc = nav_GetSample(&nav);
-		if(rc) {
-			printf("ERROR: nav_GetSample return code=%d\n",rc); 
-		}
-		nav_Print(&nav);
-	}
-	nav_Close();
-	printf("\nDone...\n");
-	return 0;
+  //nav board
+  printf("Init Navboard ...\r\n");
+  rc = nav_Init(&nav);
+  if (rc) return rc;
+  printf("Init Navboard OK\r\n");
+
+  //calibrate
+  printf("Calibration ...\r\n");
+  rc = nav_FlatTrim();
+  if (rc) {
+    printf("Failed: retcode=%d\r\n", rc);
+    return rc;
+  }
+  printf("Calibration OK\r\n");
+
+  //main loop
+  while (1) {
+    //get sample
+    rc = nav_GetSample(&nav);
+    if (rc) {
+      printf("ERROR: nav_GetSample return code=%d\n", rc);
+    }
+    nav_Print(&nav);
+  }
+  nav_Close();
+  printf("\nDone...\n");
+  return 0;
 }

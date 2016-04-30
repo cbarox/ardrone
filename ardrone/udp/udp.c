@@ -5,16 +5,15 @@
 #include <fcntl.h>
 #include "udp.h"
 
-int udpClient_Init(struct udp_struct *udp, const char *host, int port)
-{
-  udp->slen=sizeof(udp->si_other);
-  
-  if ((udp->s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))==-1) return 1;
-  
+int udpClient_Init(struct udp_struct *udp, const char *host, int port) {
+  udp->slen = sizeof(udp->si_other);
+
+  if ((udp->s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) return 1;
+
   memset((char *) &udp->si_other, 0, sizeof(udp->si_other));
   udp->si_other.sin_family = AF_INET;
   udp->si_other.sin_port = htons(port);
-  if (inet_aton(host, &udp->si_other.sin_addr)==0) return 2;
+  if (inet_aton(host, &udp->si_other.sin_addr) == 0) return 2;
 
   return 0;
 }
@@ -26,19 +25,17 @@ int udpClient_Send(struct udp_struct *udp, char *buf, int len) {
   return 0;
 }
 
-void udpClient_Close(struct udp_struct *udp)
-{  
+void udpClient_Close(struct udp_struct *udp) {
   close(udp->s);
 }
 
 
-int udpServer_Init(struct udp_struct *udp, int port, int blocking)
-{
-  udp->slen=sizeof(udp->si_other);
- 
-  if ((udp->s=socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP))==-1) return 1;
- 
-  if(blocking==0) { 
+int udpServer_Init(struct udp_struct *udp, int port, int blocking) {
+  udp->slen = sizeof(udp->si_other);
+
+  if ((udp->s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) return 1;
+
+  if (blocking == 0) {
     // Set socket to be non-blocking.  All of the sockets for    
     // the incoming connections will also be non-blocking since  
     // they will inherit that state from the listening socket.   
@@ -46,7 +43,7 @@ int udpServer_Init(struct udp_struct *udp, int port, int blocking)
     x = fcntl(udp->s, F_GETFL, 0);
     fcntl(udp->s, F_SETFL, x | O_NONBLOCK);
   }
- 
+
   //Bind the socket  
   memset((char *) &udp->si_me, 0, sizeof(udp->si_me));
   udp->si_me.sin_family = AF_INET;
@@ -60,13 +57,11 @@ int udpServer_Init(struct udp_struct *udp, int port, int blocking)
 }
 
 //returns size of packet received or returns -1 and errno=EWOULDBLOCK if no data available
-int udpServer_Receive(struct udp_struct *udp, char *buf, int len)
-{
+int udpServer_Receive(struct udp_struct *udp, char *buf, int len) {
   return recvfrom(udp->s, buf, len, 0, (struct sockaddr *) &udp->si_other,
                   &udp->slen);
 }
 
-void udpServer_Close(struct udp_struct *udp)
-{  
+void udpServer_Close(struct udp_struct *udp) {
   close(udp->s);
 }

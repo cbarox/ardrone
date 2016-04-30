@@ -28,7 +28,10 @@
 
 //non blocking getchar
 int util_getch(void);
+
 //return timestamp in seconds with microsecond resolution
 double util_timestamp();
+
 int util_timestamp_int();
+
 #endif

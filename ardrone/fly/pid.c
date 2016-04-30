@@ -20,29 +20,27 @@
 */
 #include "pid.h"
 
-void pid_Init(struct pid_struct *pid, float kp, float ki, float kd, float i_max)
-{
-	pid->kp=kp;
-	pid->ki=ki;
-	pid->kd=kd;
-	pid->i_max=i_max;
-	pid->i=0;
-	pid->e_prev=0;
+void pid_Init(struct pid_struct *pid, float kp, float ki, float kd,
+							float i_max) {
+	pid->kp = kp;
+	pid->ki = ki;
+	pid->kd = kd;
+	pid->i_max = i_max;
+	pid->i = 0;
+	pid->e_prev = 0;
 }
 
-float pid_CalcD(struct pid_struct *pid, float error, float dt, float d)
-{
+float pid_CalcD(struct pid_struct *pid, float error, float dt, float d) {
 	pid->i += error * dt;
-	if(pid->i > pid->i_max) pid->i = pid->i_max;
-	if(pid->i < -pid->i_max) pid->i = -pid->i_max;
+	if (pid->i > pid->i_max) pid->i = pid->i_max;
+	if (pid->i < -pid->i_max) pid->i = -pid->i_max;
 	float out = pid->kp * error + pid->ki * pid->i + pid->kd * d;
 	pid->e_prev = error;
 	return out;
 }
 
-float pid_Calc(struct pid_struct *pid, float error, float dt)
-{
-	return pid_CalcD(pid,  error, dt, (error - pid->e_prev)/dt);
+float pid_Calc(struct pid_struct *pid, float error, float dt) {
+	return pid_CalcD(pid, error, dt, (error - pid->e_prev) / dt);
 }
 
 /*

@@ -37,14 +37,12 @@
 
 #include "ars.h"
 
-#include <math.h>
 
-
-void ars_Init(struct ars_Gyro1DKalman *ars, double Q_angle, double Q_gyro, double R_angle)
-{
-	ars->Q_angle = Q_angle;
-	ars->Q_gyro  = Q_gyro;
-	ars->R_angle = R_angle;
+void ars_Init(struct ars_Gyro1DKalman *ars, double Q_angle, double Q_gyro,
+              double R_angle) {
+  ars->Q_angle = Q_angle;
+  ars->Q_gyro = Q_gyro;
+  ars->R_angle = R_angle;
 }
 
 /*
@@ -72,14 +70,14 @@ void ars_Init(struct ars_Gyro1DKalman *ars, double Q_angle, double Q_gyro, doubl
  *
  *
  */
-void ars_predict(struct ars_Gyro1DKalman *ars, const double dotAngle, const double dt)
-{
-	ars->x_angle += dt * (dotAngle - ars->x_bias);
+void ars_predict(struct ars_Gyro1DKalman *ars, const double dotAngle,
+                 const double dt) {
+  ars->x_angle += dt * (dotAngle - ars->x_bias);
 
-	ars->P_00 +=  - dt * (ars->P_10 + ars->P_01) + ars->Q_angle * dt;
-	ars->P_01 +=  - dt * ars->P_11;
-	ars->P_10 +=  - dt * ars->P_11;
-	ars->P_11 +=  + ars->Q_gyro * dt;
+  ars->P_00 += -dt * (ars->P_10 + ars->P_01) + ars->Q_angle * dt;
+  ars->P_01 += -dt * ars->P_11;
+  ars->P_10 += -dt * ars->P_11;
+  ars->P_11 += +ars->Q_gyro * dt;
 }
 
 /*
@@ -106,21 +104,20 @@ void ars_predict(struct ars_Gyro1DKalman *ars, const double dotAngle, const doub
  *    = [ P(0,0)-P(0,0)*K(0)  P(0,1)-P(0,1)*K(0),
  *        P(1,0)-P(0,0)*K(1)  P(1,1)-P(0,1)*K(1) ]
  */
-double ars_update(struct ars_Gyro1DKalman *ars, const double angle_m)
-{
-	const double y = angle_m - ars->x_angle;
-	
-	const double S = ars->P_00 + ars->R_angle;
-	const double K_0 = ars->P_00 / S;
-	const double K_1 = ars->P_10 / S;
-	
-	ars->x_angle +=  K_0 * y;
-	ars->x_bias  +=  K_1 * y;
-	
-	ars->P_00 -= K_0 * ars->P_00;
-	ars->P_01 -= K_0 * ars->P_01;
-	ars->P_10 -= K_1 * ars->P_00;
-	ars->P_11 -= K_1 * ars->P_01;
-	
-	return ars->x_angle;
+double ars_update(struct ars_Gyro1DKalman *ars, const double angle_m) {
+  const double y = angle_m - ars->x_angle;
+
+  const double S = ars->P_00 + ars->R_angle;
+  const double K_0 = ars->P_00 / S;
+  const double K_1 = ars->P_10 / S;
+
+  ars->x_angle += K_0 * y;
+  ars->x_bias += K_1 * y;
+
+  ars->P_00 -= K_0 * ars->P_00;
+  ars->P_01 -= K_0 * ars->P_01;
+  ars->P_10 -= K_1 * ars->P_00;
+  ars->P_11 -= K_1 * ars->P_01;
+
+  return ars->x_angle;
 }

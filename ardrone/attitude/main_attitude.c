@@ -27,29 +27,28 @@
 
 #include "attitude.h"
 
-int main()
-{
-	int rc;
-	struct att_struct att;
-	
-	printf("Attitude Estimate test program\r\n");
+int main() {
+  int rc;
+  struct att_struct att;
 
-	//init att board
-	printf("Init Attitute Estimate ...\r\n");
-	rc = att_Init(&att);
-	if(rc) return rc;
-	printf("Init Attitute Estimate OK\r\n");
+  printf("Attitude Estimate test program\r\n");
 
-	//main loop	
-	while(1) { 
-		//get sample
-		rc = att_GetSample(&att);
-		if(rc) {
-			printf("ERROR: att_GetSample return code=%d\n",rc); 
-		}
-		att_Print(&att);
-	}
-	att_Close();
-	printf("\nDone...\n");
-	return 0;
+  //init att board
+  printf("Init Attitute Estimate ...\r\n");
+  rc = att_Init(&att);
+  if (rc) return rc;
+  printf("Init Attitute Estimate OK\r\n");
+
+  //main loop
+  while (1) {
+    //get sample
+    rc = att_GetSample(&att);
+    if (rc) {
+      printf("ERROR: att_GetSample return code=%d\n", rc);
+    }
+    att_Print(&att);
+  }
+  att_Close();
+  printf("\nDone...\n");
+  return 0;
 }

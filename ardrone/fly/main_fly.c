@@ -28,51 +28,51 @@
 #include "../udp/udp.h"
 #include "controlthread.h"
 
-int main()
-{
+int main() {
   printf("'fly' version 1.00 - Copyright (C) 2011 Hugo Perquin - http://blog.perquin.com\n");
   //wait for udp packet on port 7777
   struct udp_struct udpCmd;
-  udpServer_Init(&udpCmd,7777,1/*blocking*/);
+  udpServer_Init(&udpCmd, 7777, 1/*blocking*/);
   char buf[1024];
   printf("Waiting for UDP wakeup on port 7777\n");
-  int bufcnt=udpServer_Receive(&udpCmd, buf, 1024);
-  if(bufcnt<=0) return 1;
-  buf[bufcnt]=0;
-  printf("UDP wakeup received from %s\n",inet_ntoa(udpCmd.si_other.sin_addr));
+  int bufcnt = udpServer_Receive(&udpCmd, buf, 1024);
+  if (bufcnt <= 0) return 1;
+  buf[bufcnt] = 0;
+  printf("UDP wakeup received from %s\n", inet_ntoa(udpCmd.si_other.sin_addr));
 
   //kill program.elf
   int rc = system("/usr/bin/killall program.elf > /dev/null 2>&1");
-  printf("killall program.elf -> returncode=%d  (0=killed,256=not found)\n",rc);	
-  
+  printf("killall program.elf -> returncode=%d  (0=killed,256=not found)\n",
+         rc);
+
   //init controller
   ctl_Init(inet_ntoa(udpCmd.si_other.sin_addr));
   printf("ctl_Init completed\n");
 
   //main loop	
-  while(1) { 
+  while (1) {
     //wait for next packet on cmd port
-    bufcnt=udpServer_Receive(&udpCmd, buf, 1024);
-    if(bufcnt<=0) continue;
-    buf[bufcnt]=0;
-    
+    bufcnt = udpServer_Receive(&udpCmd, buf, 1024);
+    if (bufcnt <= 0) continue;
+    buf[bufcnt] = 0;
+
     //split tokens
-    int i=0;
+    int i = 0;
     char delims[] = ",";
     char *result = NULL;
-    result = strtok( buf, delims );
-    if(strcmp(result,"s")) continue;
-    result = strtok( NULL, delims );
+    result = strtok(buf, delims);
+    if (strcmp(result, "s")) continue;
+    result = strtok(NULL, delims);
     float val[4];
-    while( i<4 && result != NULL ) {
-      val[i]=atof(result);
+    while (i < 4 && result != NULL) {
+      val[i] = atof(result);
       //printf( "->token%d is \"%s\" %f\n", i, result, val[i] );
-      result = strtok( NULL, delims );
+      result = strtok(NULL, delims);
       i++;
     }
-    if(i==4) {
-      printf("set:%f,%f,%f,%f\n", val[0],val[1],val[2],val[3] );
-      ctl_SetSetpoint(val[0],val[1],val[2],val[3]);
+    if (i == 4) {
+      printf("set:%f,%f,%f,%f\n", val[0], val[1], val[2], val[3]);
+      ctl_SetSetpoint(val[0], val[1], val[2], val[3]);
     }
 
   }

@@ -29,8 +29,11 @@
 #define MOT_LEDORANGE 3
 
 int motorboard_Init();
+
 void motorboard_SetPWM(u16 pwm0, u16 pwm1, u16 pwm2, u16 pwm3);
+
 void motorboard_SetLeds(u08 led0, u08 led1, u08 led2, u08 led3);
+
 void motorboard_Close();
 
 #endif

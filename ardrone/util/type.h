@@ -20,7 +20,7 @@
 */
 #ifndef _TYPE_H
 #define _TYPE_H
-typedef unsigned int           u32;
-typedef unsigned short int     u16;
-typedef unsigned char          u08;
+typedef unsigned int u32;
+typedef unsigned short int u16;
+typedef unsigned char u08;
 #endif

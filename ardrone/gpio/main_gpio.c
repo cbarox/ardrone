@@ -24,16 +24,28 @@
 #include "../util/util.h"
 
 int main(int argc, char *argv[]) {
-	printf("Main Led:  a=loff  s=green  d=orange  f=red     q=quit\r\n");
-	while(1) { 
-		//handle user input
-		int c=tolower(util_getch());
-		if(c=='a') break;
-		if(c=='a') {gpio_set(63,0);gpio_set(64,0);}
-		if(c=='s') {gpio_set(63,0);gpio_set(64,1);}
-		if(c=='d') {gpio_set(63,1);gpio_set(64,1);}
-		if(c=='f') {gpio_set(63,1);gpio_set(64,0);}
-	}	
+  printf("Main Led:  a=loff  s=green  d=orange  f=red     q=quit\r\n");
+  while (1) {
+    //handle user input
+    int c = tolower(util_getch());
+    if (c == 'a') break;
+    if (c == 'a') {
+      gpio_set(63, 0);
+      gpio_set(64, 0);
+    }
+    if (c == 's') {
+      gpio_set(63, 0);
+      gpio_set(64, 1);
+    }
+    if (c == 'd') {
+      gpio_set(63, 1);
+      gpio_set(64, 1);
+    }
+    if (c == 'f') {
+      gpio_set(63, 1);
+      gpio_set(64, 0);
+    }
+  }
 
-	return 0;
+  return 0;
 }

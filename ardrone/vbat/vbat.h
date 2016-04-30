@@ -22,20 +22,21 @@
 #define _VBAT_H
 
 struct vbat_struct {
-	float vbat;
-	float vdd0;
-	float vdd1;
-	float vdd2;
-	float vdd3;
-	float vdd4;
-	float vdd0_setpoint;
-	float vdd1_setpoint;
-	float vdd2_setpoint;
-	float vdd3_setpoint;
-	float vdd4_setpoint;
+    float vbat;
+    float vdd0;
+    float vdd1;
+    float vdd2;
+    float vdd3;
+    float vdd4;
+    float vdd0_setpoint;
+    float vdd1_setpoint;
+    float vdd2_setpoint;
+    float vdd3_setpoint;
+    float vdd4_setpoint;
 };
 
 int vbat_init(struct vbat_struct *vbat);
 
 int vbat_read(struct vbat_struct *vbat);
+
 #endif
