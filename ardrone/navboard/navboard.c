@@ -19,12 +19,9 @@
     MA 02110-1301 USA.
 */
 #include <stdio.h>   /* Standard input/output definitions */
-#include <string.h>  /* String function definitions */
 #include <unistd.h>  /* UNIX standard function definitions */
 #include <fcntl.h>   /* File control definitions */
-#include <errno.h>   /* Error number definitions */
 #include <termios.h> /* POSIX terminal control definitions */
-#include <stdlib.h>  //exit()
 #include <math.h>
 
 #include "navboard.h"
@@ -51,7 +48,7 @@ const float gyros110_gains[]           = { 1.5517747e-03, 1.5981209e-03 };
 
 //get a sample from the nav board (non blocking)
 //returns 0 on success
-int nav_GetSample(nav_struct* nav)
+int nav_GetSample(struct nav_struct *nav)
 {
 	int n;
 	do {
@@ -106,13 +103,13 @@ int nav_GetSample(nav_struct* nav)
 	if(nav->gy>DEG2RAD(-100) && nav->gy<DEG2RAD(100)) nav->gy = ((float)nav->gyro_110[1] - gyros110_offset[1]) * gyros110_gains[1];
 	nav->h  = (float)((nav->us_echo&0x7fff)) * 0.0340;
   nav->h_meas = nav->us_echo >> 15;
-	nav->tg  = (( (float)nav->gyro_temp * 0.806 /*mv/lsb*/ ) - 1250 /*Offset 1250mV at room temperature*/) / 4.0 /*Sensitivity 4mV/°C*/ + 20 /*room temperature*/;
+	nav->tg  = (( (float)nav->gyro_temp * 0.806 /*mv/lsb*/ ) - 1250 /*Offset 1250mV at room temperature*/) / 4.0 /*Sensitivity 4mV/ï¿½C*/ + 20 /*room temperature*/;
 	nav->ta  = ((float)nav->acc_temp) * 0.5 /*C/lsb*/ - 30 /*Offset is -30C*/;
 	
 	return 0;
 }
 
-void nav_Print(nav_struct* nav) 
+void nav_Print(struct nav_struct *nav)
 {
 /*
 	printf("RAW seq=%d a=%d,%d,%d g=%d,%d,%d,%d,%d h=%d ta=%d tg=%d\n"
@@ -152,7 +149,7 @@ int nav_FlatTrim()
 	//printf("nav_Calibrate bypassed\n");
 	//return 0;
 
-	nav_struct nav;
+	struct nav_struct nav;
 	int n_samples=40;
 	int n=0; //number of samples
 	float x1[8],x2[8]; //sum and sqr sum
@@ -222,7 +219,7 @@ int nav_FlatTrim()
 	return 0;	
 }
 
-int nav_Init(nav_struct* nav) {
+int nav_Init(struct nav_struct *nav) {
 	//open nav port
 	//stty -F /dev/ttyPA2 460800 -parenb -parodd cs8 -hupcl -cstopb cread clocal -crtscts 
 	//-ignbrk -brkint -ignpar -parmrk -inpck -istrip -inlcr -igncr -icrnl -ixon -ixoff -iuclc -ixany -imaxbel 

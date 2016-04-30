@@ -53,10 +53,13 @@ struct att_struct {
 	float gz;   // gyro value z-axis in [rad/sec] right turn, i.e. yaw left is positive 
 };
 
-int att_Init(att_struct *att);
-int att_Init(att_struct *att);
-int att_GetSample(att_struct *att);
-int att_FlatTrim(att_struct *att); //recalibrate
-void att_Print(att_struct *att);
+int att_Init(struct att_struct *att);
+
+int att_Init(struct att_struct *att);
+
+int att_GetSample(struct att_struct *att);
+
+int att_FlstructatTrim(struct att_struct *att); //recalibrate
+void att_Print(struct att_struct *att);
 void att_Close();
 #endif

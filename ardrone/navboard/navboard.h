@@ -30,10 +30,10 @@ Microchip PIC24HJ16GP304
 12 bit ADC, Vref=3.3V -> 0.806mV/lsb
 
 IDG-500 (Dual-axis gyroscope) 
-X-/Y-Out Pins: 500°/s full scale range, 2.0mV/°/s sensitivity
-X/Y4.5Out Pins: 110°/s full scale range, 9.1mV/°/s sensitivity
-Vref = 1350±50mV
-Temperature Sensor: Range -20 to +85°C, Sensitivity 4mV/°C, Offset 1.25V at room temperature
+X-/Y-Out Pins: 500ï¿½/s full scale range, 2.0mV/ï¿½/s sensitivity
+X/Y4.5Out Pins: 110ï¿½/s full scale range, 9.1mV/ï¿½/s sensitivity
+Vref = 1350ï¿½50mV
+Temperature Sensor: Range -20 to +85ï¿½C, Sensitivity 4mV/ï¿½C, Offset 1.25V at room temperature
 
 Epson XV-3500CB (Z-axis gyroscope) 
 0.67mV/deg/s  Vref=1350+/-30mV
@@ -41,7 +41,7 @@ Epson XV-3500CB (Z-axis gyroscope)
 Bosch BMA150 (3-axis accelerometer) 
 i2c interface
 Acceleration Sensor: 10bit resolution, range -2 to 2G 
-Temperature Sensor: 8bit, 0.5°C/lsb, range -30 to 97.5°C
+Temperature Sensor: 8bit, 0.5ï¿½C/lsb, range -30 to 97.5ï¿½C
 */
 struct nav_struct
 {
@@ -79,10 +79,12 @@ struct nav_struct
 	float tg;   // temperature gyro  
 };
 
-int nav_Init(nav_struct* nav);
+int nav_Init(struct nav_struct *nav);
 int nav_FlatTrim();
-int nav_GetSample(nav_struct* nav);
-void nav_Print(nav_struct* nav);
+
+int nav_GetSample(struct nav_struct *nav);
+
+void nav_Print(struct nav_struct *nav);
 void nav_Close();
 
 #endif

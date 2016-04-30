@@ -19,14 +19,11 @@
     MA 02110-1301 USA.
 */
 #include <stdio.h>   /* Standard input/output definitions */
-#include <string.h>  /* String function definitions */
 #include <unistd.h>  /* UNIX standard function definitions */
-#include <errno.h>   /* Error number definitions */
 #include <stdlib.h>  //exit()
 #include <pthread.h>
 
 #include "mot.h"
-#include "motorboard.h"
 
 //need 0xff for reliable startup, after startup min pwm 0x50 is allowed
 const u16 mot_pwm_min=0x00; 
@@ -42,7 +39,7 @@ struct mot_struct
 };
 pthread_t mot_thread;
 pthread_mutex_t mot_mutex;
-mot_struct mot;
+struct mot_struct mot;
 
 
 //mot thread

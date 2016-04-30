@@ -20,23 +20,17 @@
 */
 #include <stdio.h>   /* Standard input/output definitions */
 //#include <string.h>  /* String function definitions */
-#include <unistd.h>  /* UNIX standard function definitions */
 //#include <fcntl.h>   /* File control definitions */
 //#include <errno.h>   /* Error number definitions */
 //#include <termios.h> /* POSIX terminal control definitions */
 //#include <stdlib.h>  //exit()
-#include <pthread.h>
-#include <ctype.h>    /* For tolower() function */
-#include <math.h>
 
-#include "../util/type.h"
-#include "../util/util.h"
 #include "navboard.h"
 
 int main()
 {
 	int rc;
-	nav_struct nav;
+	struct nav_struct nav;
 	
 	printf("Nav board test program\r\n");
 

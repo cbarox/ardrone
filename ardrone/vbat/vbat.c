@@ -55,7 +55,7 @@ float vbat_get(unsigned char channel)
 	return v;
 }
 
-int vbat_init(vbat_struct *vbat)
+int vbat_init(struct vbat_struct *vbat)
 {
 	fd = open( "/dev/i2c-0", O_RDWR );
 
@@ -98,7 +98,7 @@ int vbat_init(vbat_struct *vbat)
 	return 0;
 }
 
-int vbat_read(vbat_struct *vbat)
+int vbat_read(struct vbat_struct *vbat)
 {
 	vbat->vbat=vbat_get(0);
 	vbat->vdd0=vbat_get(4);

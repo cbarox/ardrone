@@ -28,7 +28,10 @@ struct pid_struct
 	float i_max;
 };
 
-void pid_Init(pid_struct *pid, float kp, float ki, float kd, float i_max);
-float pid_Calc(pid_struct *pid, float error, float dt);
-float pid_CalcD(pid_struct *pid, float error, float dt, float d);
+void pid_Init(struct pid_struct *pid, float kp, float ki, float kd,
+							float i_max);
+
+float pid_Calc(struct pid_struct *pid, float error, float dt);
+
+float pid_CalcD(struct pid_struct *pid, float error, float dt, float d);
 

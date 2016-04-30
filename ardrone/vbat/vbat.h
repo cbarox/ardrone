@@ -35,6 +35,7 @@ struct vbat_struct {
 	float vdd4_setpoint;
 };
 
-int vbat_init(vbat_struct *vbat);
-int vbat_read(vbat_struct *vbat);
+int vbat_init(struct vbat_struct *vbat);
+
+int vbat_read(struct vbat_struct *vbat);
 #endif

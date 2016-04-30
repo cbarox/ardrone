@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 #include "udp.h"
 
@@ -12,7 +11,7 @@ void diep(const char *s)
 
 int main(void)
 {
-  udp_struct udp;
+  struct udp_struct udp;
 
   int msglen;
   char buf[512];

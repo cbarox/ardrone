@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 2.8.12)
+project(ardrone)
+
+add_subdirectory(attitude)
+add_subdirectory(fly)
+add_subdirectory(gpio)
+add_subdirectory(motorboard)
+add_subdirectory(navboard)
+add_subdirectory(udp)
+add_subdirectory(vbat)
+add_subdirectory(video)
